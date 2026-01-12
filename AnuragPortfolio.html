@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anurag | Portfolio</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }
+    body { background: #0f0f0f; color: #f5f5f5; line-height: 1.6; scroll-behavior: smooth; }
+
+    /* Floating name bar with nav */
+    .name-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      transform: translateY(-100%);
+      transition: transform 0.4s ease;
+      z-index: 1000;
+    }
+
+    .name-bar.active { transform: translateY(0); }
+
+    .name-left { display: flex; align-items: center; gap: 12px; }
+
+    .name-bar img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid #f5c518;
+      object-fit: cover;
+    }
+
+    .name-bar h1 { font-size: 1.1rem; font-weight: 600; }
+    .name-bar .role { font-size: 0.85rem; color: #bbbbbb; margin-left: 6px; }
+
+    .mini-nav a { margin-left: 18px; font-size: 0.85rem; color: #cccccc; }
+    .mini-nav a:hover { color: #f5c518; }
+
+    .resume-btn {
+      margin-left: 20px;
+      padding: 6px 14px;
+      border: 1px solid #f5c518;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: #f5c518;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .resume-btn:hover { background: #f5c518; color: #000; }
+
+    /* Hero */
+    header {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(180deg, #000000, #121212);
+      padding: 40px 20px;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      text-align: center;
+    }
+
+    .profile-img {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      border: 4px solid #f5c518;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+    }
+
+    header h1 { font-size: 3rem; letter-spacing: 2px; }
+    header p { max-width: 700px; color: #cccccc; }
+
+    @media (min-width: 768px) {
+      .hero-content { flex-direction: row; text-align: left; gap: 40px; }
+      header h1 { font-size: 3.5rem; }
+    }
+
+    /* Sections */
+    section { padding: 90px 8%; scroll-margin-top: 80px; }
+    h2 { font-size: 2rem; margin-bottom: 30px; border-left: 5px solid #f5c518; padding-left: 15px; }
+
+    .fade-section {
+      opacity: 0;
+      transform: translateY(60px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-section.active { opacity: 1; transform: translateY(0); }
+
+    /* Cards */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: #151515;
+      padding: 25px;
+      border-radius: 14px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover { transform: translateY(-6px); }
+    .card h3 { color: #f5c518; margin-bottom: 10px; }
+
+    /* Metrics */
+    .metrics { display: flex; gap: 30px; margin-top: 20px; flex-wrap: wrap; }
+    .metric { font-size: 1.2rem; color: #f5c518; }
+
+    footer { background: #000; padding: 30px; text-align: center; color: #aaa; }
+    a { color: #f5c518; text-decoration: none; }
+
+    .social-icons {
+      display: flex;
+      gap: 16px;
+      margin-top: 10px;
+      align-items: center;
+    }
+
+    .social-icons a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #151515;
+      border: 1px solid #2a2a2a;
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+
+    .social-icons a:hover {
+      transform: translateY(-3px);
+      background: #f5c518;
+    }
+
+    .social-icons svg {
+      width: 20px;
+      height: 20px;
+      fill: #f5c518;
+    }
+
+    .social-icons a:hover svg {
+      fill: #000;
+    }
+  </style>
+
+  <!-- Google Analytics (GA4) -->
+  <!-- Replace G-XXXXXXXXXX with your actual Measurement ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+</head>
+<body>
+
+  <!-- Floating Name Bar -->
+  <div class="name-bar" id="nameBar">
+    <div class="name-left">
+      <img src="https://i.postimg.cc/DZvx8pwg/IMG_8139_1.jpg" alt="Anurag" />
+      <h1>Anurag Gopinath <span class="role">• Retention Manager</span></h1>
+    </div>
+    <nav class="mini-nav">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+      <a href="resume.pdf" class="resume-btn" id="resumeTop" download>Resume</a>
+    </nav>
+  </div>
+
+  <!-- Hero -->
+  <header>
+    <div class="hero-content">
+      <img src="https://i.postimg.cc/DZvx8pwg/IMG_8139_1.jpg" class="profile-img" alt="Anurag" />
+      <div>
+        <h1>Anurag Gopinath</h1>
+        <p>Retention Manager | Data Analyst Aspirant | Growth & CRM Specialist</p>
+        <p style="margin-top:14px;"><a href="resume.pdf" class="resume-btn" id="resumeHero" download>Download Resume</a></p>
+      </div>
+    </div>
+  </header>
+
+  <!-- About -->
+    <!-- About -->
+    <!-- About -->
+    <section id="about" class="fade-section">
+    <h2>About Me</h2>
+    <p>I’m a <strong>Retention Manager and BCA Data Analytics graduate</strong> with hands-on experience building customer lifecycle and retention systems from scratch.</p>
+    <p>At LiveLaw, I fixed email deliverability issues, built multi-channel journeys (Email, Push, Web Push), and applied data-driven segmentation — helping increase monthly revenue from <strong>₹7L to ₹24L in 4–5 months</strong> while keeping costs stable.</p>
+    <p>I currently work <strong>part-time with companies to help them set up, optimize, and scale customer engagement & retention tools</strong> — focusing on retention journeys, deliverability, segmentation, and measurable revenue impact. Open to <strong>remote, part-time, and contract-based engagements</strong>.</p>
+  </section>
+
+  <!-- Skills -->
+    <!-- Skills -->
+  <section id="skills" class="fade-section">
+    <h2>Skills</h2>
+    <div class="card-grid">
+      <div class="card"><h3>Data & Analytics</h3><p>Excel, SQL, Python, R Programming, Data Cleaning, Data Validation, Funnel & ROI Analysis</p></div>
+      <div class="card"><h3>Business & Retention</h3><p>Customer Retention Strategy, Lifecycle Journeys, Churn Prevention, User Segmentation, Personalization</p></div>
+      <div class="card"><h3>Tools & Platforms</h3><p>Power BI, WebEngage, Tableau, Hadoop, HTML Email Templates, VS Code</p></div>
+      <div class="card"><h3>Soft Skills</h3><p>Communication, Problem-Solving, Stakeholder Coordination, Training & Mentoring</p></div>
+    </div>
+  </section>
+
+    <!-- Experience -->
+    <!-- Experience -->
+    
+
+  <section id="experience" class="fade-section">
+    <h2>Experience</h2>
+    <div class="card-grid">
+
+      <div class="card" style="text-align:center;">
+        <img src="https://i.postimg.cc/pLWyCw1t/livelaw-circle.png" alt="LiveLaw" style="width:80px;height:80px;border-radius:50%;background:#fff;padding:10px;margin-bottom:15px;" />
+        <h3>Retention Manager – LiveLaw</h3>
+        <p style="font-size:0.85rem;color:#bbbbbb;margin-top:-6px;">Tools used: WebEngage • HTML Email • Excel • Power BI</p>
+        <p><em>July 2025 – Present</em></p>
+        <ul style="margin-top:12px; line-height:1.7; color:#cccccc;">
+          <li>Built the entire customer retention program from scratch using WebEngage with no prior handover or documentation.</li>
+          <li>Resolved email deliverability issues by rebuilding newsletters in HTML with balanced text–image ratios, improving inbox placement.</li>
+          <li>Designed and launched multi-channel journeys across Email, Push, and Web Push focused on conversion, engagement, and renewals.</li>
+          <li>Improved monthly revenue from ₹7L to ₹24L within 4–5 months while keeping expenses stable.</li>
+          <li>Created onsite surveys to understand user preferences and enable future personalization.</li>
+          <li>Segmented users into active, inactive, and uninterested cohorts based on email, website, and app engagement.</li>
+          <li>Built inactive-user and premium-retention journeys to reduce churn and improve renewals.</li>
+          <li>Simplified complex journeys and trained internal teams to independently manage workflows.</li>
+        </ul>
+      </div>
+
+      <div class="card" style="text-align:center;">
+        <img src="https://i.postimg.cc/vZZHfWDJ/images.png" alt="Concentrix" style="width:80px;height:80px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;padding:6px;margin:0 auto 15px auto;object-fit:contain;" />
+        <h3>Customer Service Advisor – Concentrix Services India Pvt Ltd</h3>
+        <p><em>May 2024 – March 2025</em></p>
+        <ul style="margin-top:12px; line-height:1.7; color:#cccccc;">
+          <li>Handled high volumes of customer interactions daily while maintaining strong service quality.</li>
+          <li>Resolved customer issues efficiently, improving overall customer satisfaction.</li>
+          <li>Improved first-call resolution by providing accurate information and effective problem-solving.</li>
+          <li>Developed strong communication, empathy, and customer-handling skills.</li>
+        </ul>
+      </div>
+
+      <div class="card" style="text-align:center;">
+        <img src="https://i.postimg.cc/D07KFTG7/5955001-large.png" alt="Cranes Varsity" style="width:80px;height:80px;border-radius:50%;background:#fff;padding:12px;margin-bottom:15px;" />
+        <h3>Data Analyst Intern – Cranes Varsity</h3>
+        <p><em>March 2024 – April 2024</em></p>
+        <ul style="margin-top:12px; line-height:1.7; color:#cccccc;">
+          <li>Performed data validation and data cleaning to ensure accuracy for analysis.</li>
+          <li>Built and enhanced interactive dashboards using Power BI.</li>
+          <li>Supported business decision-making through clear data visualization.</li>
+        </ul>
+      </div>
+
+      <div class="card" style="text-align:center;">
+        <img src="https://i.postimg.cc/9FfBknkC/Golden-Arches-png-coredownload.png" alt="McDonalds" style="width:80px;height:80px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;padding:0;margin:0 auto 15px auto;object-fit:contain;" />
+        <h3>Crew Member Trainer – McDonald’s</h3>
+        <p><em>February 2023 – March 2024</em></p>
+        <ul style="margin-top:12px; line-height:1.7; color:#cccccc;">
+          <li>Trained employees on customer service standards and operational performance.</li>
+          <li>Mentored new hires to help them adapt quickly to company culture.</li>
+          <li>Ensured service consistency and team efficiency during shifts.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+    <!-- Education & Location -->
+  <section id="education" class="fade-section">
+    <h2>Education & Details</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Bachelor of Computer Applications (BCA) – Data Analytics</h3>
+        <p><em>Completed</em></p>
+        <p>Focused on data analysis, programming, and analytical problem-solving with hands-on exposure to real-world datasets.</p>
+      </div>
+      <div class="card">
+        <h3>Location & Languages</h3>
+        <p><strong>Location:</strong> Noida, India</p>
+        <p><strong>Languages:</strong> English, Hindi, Malayalam</p>
+        <p><strong>Work Preference:</strong> Remote</p>
+      </div>
+    </div>
+  </section>
+
+    <!-- Services / WebEngage Consulting -->
+  <section id="services" class="fade-section">
+    <h2>Customer Engagement & Retention Consulting (Part-Time)</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Retention & Lifecycle Setup</h3>
+        <p>End-to-end setup of user journeys across Email, Push, and Web Push using modern customer engagement platforms, with clear logic, conditions, and goals.</p>
+      </div>
+      <div class="card">
+        <h3>Email Deliverability & Newsletters</h3>
+        <p>Fix spam and deliverability issues, rebuild newsletters in HTML, balance text–image ratio, and improve inbox placement across email platforms.</p>
+      </div>
+      <div class="card">
+        <h3>User Segmentation & Inactive Journeys</h3>
+        <p>Identify active, inactive, and uninterested users and design journeys to reduce churn and improve renewals.</p>
+      </div>
+      <div class="card">
+        <h3>Revenue & Retention Analysis</h3>
+        <p>Analyze funnel gaps, measure ROI, and optimize journeys to drive sustainable revenue growth.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="fade-section">
+    <h2>Projects</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Customer Retention System</h3>
+        <p>Built multi-channel journeys that scaled revenue.</p>
+        <div class="metrics">
+          <div class="metric">₹7L → ₹24L</div>
+          <div class="metric">4–5 Months</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Inactive Premium Retention</h3>
+        <p>Designed churn-prevention journeys for renewals.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+    <section id="contact" class="fade-section">
+    <h2>Contact</h2>
+    <p>If you’re looking for <strong>part-time or contract support on customer engagement and retention platforms</strong> (setup, optimization, or lifecycle strategy), feel free to reach out.</p>
+    <p><strong>Email:</strong> <a href="mailto:anuraggopinathpm@gmail.com">anuraggopinathpm@gmail.com</a></p>
+    <p><strong>Phone:</strong> <a href="tel:+917736922673">+91 77369 22673</a></p>
+    <p><strong>Availability:</strong> Remote • Part-time • Contract</p>
+
+    <div class="social-icons">
+      <a href="https://www.linkedin.com/in/anurag-gopinath/" target="_blank" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8h4V24h-4V8zm7.5 0h3.8v2.2h.1c.53-1 1.83-2.2 3.77-2.2C20.4 8 24 10.3 24 15.3V24h-4v-7.7c0-1.84-.03-4.2-2.56-4.2-2.56 0-2.95 2-2.95 4.06V24h-4V8z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/__an__urag__/?igsh=MW15anhuM2lnMzc0aA==" target="_blank" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.17.05 1.8.25 2.22.42.55.21.94.47 1.35.88.41.41.67.8.88 1.35.17.42.37 1.05.42 2.22.07 1.3.07 1.7.07 4.9s0 3.6-.07 4.9c-.05 1.17-.25 1.8-.42 2.22-.21.55-.47.94-.88 1.35-.41.41-.8.67-1.35.88-.42.17-1.05.37-2.22.42-1.3.07-1.7.07-4.9.07s-3.6 0-4.9-.07c-1.17-.05-1.8-.25-2.22-.42-.55-.21-.94-.47-1.35-.88-.41-.41-.67-.8-.88-1.35-.17-.42-.37-1.05-.42-2.22C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.9c.05-1.17.25-1.8.42-2.22.21-.55.47-.94.88-1.35.41-.41.8-.67 1.35-.88.42-.17 1.05-.37 2.22-.42C8.4 2.2 8.8 2.2 12 2.2zm0-2.2C8.7 0 8.3 0 7 0 5.7.01 4.7.24 3.9.55c-.83.32-1.54.75-2.25 1.46C.94 2.72.51 3.43.19 4.26c-.31.8-.54 1.8-.55 3.1C-.36 8.7-.36 9.1-.36 12s0 3.3.07 4.6c.01 1.3.24 2.3.55 3.1.32.83.75 1.54 1.46 2.25.71.71 1.42 1.14 2.25 1.46.8.31 1.8.54 3.1.55 1.3.07 1.7.07 4.6.07s3.3 0 4.6-.07c1.3-.01 2.3-.24 3.1-.55.83-.32 1.54-.75 2.25-1.46.71-.71 1.14-1.42 1.46-2.25.31-.8.54-1.8.55-3.1.07-1.3.07-1.7.07-4.6s0-3.3-.07-4.6c-.01-1.3-.24-2.3-.55-3.1-.32-.83-.75-1.54-1.46-2.25C21.54.75 20.83.32 20 .01c-.8-.31-1.8-.54-3.1-.55C15.6 0 15.2 0 12 0zM12 5.84A6.16 6.16 0 1 0 12 18.16 6.16 6.16 0 0 0 12 5.84zm0 10.16A4 4 0 1 1 12 8a4 4 0 0 1 0 8zm6.4-11.85a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0z"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <footer>© 2026 Anurag</footer>
+
+  <script>
+    // Fade-in observer
+    const sections = document.querySelectorAll('.fade-section');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    sections.forEach(section => observer.observe(section));
+
+    // Floating name bar toggle
+    const nameBar = document.getElementById('nameBar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > window.innerHeight * 0.6) {
+        nameBar.classList.add('active');
+      } else {
+        nameBar.classList.remove('active');
+      }
+    });
+
+    // Resume download tracking
+    document.getElementById('resumeTop').addEventListener('click', () => {
+      if (typeof gtag === 'function') {
+        gtag('event', 'resume_download', { location: 'top_bar' });
+      }
+    });
+
+    document.getElementById('resumeHero').addEventListener('click', () => {
+      if (typeof gtag === 'function') {
+        gtag('event', 'resume_download', { location: 'hero_section' });
+      }
+    });
+  </script>
+</body>
+</html>
